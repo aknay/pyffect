@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="pyffect",
-    version="0.0.1",
+    version="0.0.2",
     author="Nay Aung Kyaw",
     author_email="aknay@outlook.com",
     description="A small package for effect type in python",
