@@ -1,4 +1,4 @@
-from typing import Generic, Optional
+from typing import Generic, Optional, Callable
 
 from pyffect._types import T
 
@@ -36,8 +36,19 @@ class Option(Generic[T]):
             return value
 
     @classmethod
+    def of(cls, val: Optional[T]) -> 'Option[T]':
+        """Creates an Option from the given value."""
+        return NONE() if val is None else Some(val)
+
+    @classmethod
     def fromValue(cls, val: Optional[T]) -> 'Option[T]':
         return NONE() if val is None else Some(val)
+
+    def bind(self, bindable: Callable[[T], T]) -> 'Option[T]':
+        """Applies a function to the value inside the option, if it is defined (not None). Returns a new Option containing the result, or NONE if the option is empty."""
+        if self._value is not None:
+            return self.of(bindable(self._value))
+        return NONE()
 
     def __eq__(self, other: T):  # type: ignore
         return isinstance(other, self._type) and self._value == other._value
