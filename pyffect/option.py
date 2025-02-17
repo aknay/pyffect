@@ -86,7 +86,17 @@ class Option(Generic[T]):
             return self.of(bindable(self._value))
         return NONE()
 
+    def map(self, f: Callable[[T], T]) -> 'Option[T]':
+        """Transforms the value inside the Option using function `f`, and returns a new Option with the transformed value."""
+        if self._value is not None:
+            return self.of(f(self._value))
+        return NONE()
 
+    def flat_map(self, f: Callable[[T], 'Option[T]']) -> 'Option[T]':
+        """Transforms the value inside the Option using function `f`, which must return an Option. Flattens the result."""
+        if self._value is not None:
+            return f(self._value)
+        return NONE()
 
     def __eq__(self, other: T):  # type: ignore
         return isinstance(other, self._type) and self._value == other._value
