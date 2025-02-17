@@ -18,8 +18,8 @@ You can use following types from this library
 from pyffect import Option, NONE, Some
 
 
-def findDistanceFromSun(planetName: str) -> Option[str]:
-    planetAndDistance = {
+def find_distance_from_sun(planet_name: str) -> Option[str]:
+    planet_and_distance = {
         "Mercury": "0.39 AU",
         "Venus": "0.72 AU",
         "Earth": "1.00 AU",
@@ -30,19 +30,19 @@ def findDistanceFromSun(planetName: str) -> Option[str]:
         "Neptune": "30.06 AU",
     }
 
-    if planetName in planetAndDistance:
-        return Some(planetAndDistance[planetName])
+    if planet_name in planet_and_distance:
+        return Some(planet_and_distance[planet_name])
     else:
         return NONE()
 
 
-distanceFromJupiterOrNone: Option[str] = findDistanceFromSun("Jupiter")
-assert distanceFromJupiterOrNone.isDefined
+distanceFromJupiterOrNone: Option[str] = find_distance_from_sun("Jupiter")
+assert distanceFromJupiterOrNone.is_defined
 assert distanceFromJupiterOrNone.value == "5.20 AU"
 
-distanceFromUnknownPlanetOrNone: Option[str] = findDistanceFromSun("Unknown Planet")
-assert distanceFromUnknownPlanetOrNone.isEmpty
-assert distanceFromUnknownPlanetOrNone.getOrElse("Unknown Distance") == "Unknown Distance"
+distanceFromUnknownPlanetOrNone: Option[str] = find_distance_from_sun("Unknown Planet")
+assert distanceFromUnknownPlanetOrNone.is_empty
+assert distanceFromUnknownPlanetOrNone.get_or_else("Unknown Distance") == "Unknown Distance"
 ```
 
 ### Either Type Usage
@@ -59,10 +59,10 @@ def divide(numerator: int, denominator: int) -> Either[str, float]:
 
 
 firstValue: Either[str, float] = divide(5, 0)
-assert firstValue.isLeft
-assert firstValue.leftValue == 'unable to perform the operation.'
+assert firstValue.is_left
+assert firstValue.left_value == 'unable to perform the operation.'
 secondValue: Either[str, float] = divide(5, 2)
-assert secondValue.isRight
-assert secondValue.rightValue == 2.5
+assert secondValue.is_right
+assert secondValue.right_value == 2.5
 
 ```
