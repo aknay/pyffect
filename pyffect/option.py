@@ -1,5 +1,7 @@
+
 import warnings
 from typing import Generic, Optional, final
+
 
 from pyffect._types import T
 
@@ -76,13 +78,15 @@ class Option(Generic[T]):
 
     @classmethod
     def fromValue(cls, val: Optional[T]) -> 'Option[T]':
-        """Deprecated. Use `from_value` instead."""
-        warnings.warn(
-            "`fromValue` is deprecated, use `of` instead.",
-            category=DeprecationWarning,
-            stacklevel=2
-        )
-        return cls.of(val)  # Alias to the new method
+        return NONE() if val is None else Some(val)
+
+    def bind(self, bindable: Callable[[T], T]) -> 'Option[T]':
+        """Applies a function to the value inside the option, if it is defined (not None). Returns a new Option containing the result, or NONE if the option is empty."""
+        if self._value is not None:
+            return self.of(bindable(self._value))
+        return NONE()
+
+
 
     def __eq__(self, other: T):  # type: ignore
         return isinstance(other, self._type) and self._value == other._value
