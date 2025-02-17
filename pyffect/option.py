@@ -1,6 +1,6 @@
 
 import warnings
-from typing import Generic, Optional, final
+from typing import Callable, Generic, Optional, final
 
 
 from pyffect._types import T
@@ -55,14 +55,14 @@ class Option(Generic[T]):
         else:
             return self._value
 
-    def get_or_else(self, value: Optional[T]) -> T:
+    def get_or_else(self, value: T) -> T:
         """Return the value if defined, else return the provided default value."""
         if self._value is not None:
             return self._value
         else:
             return value
 
-    def getOrElse(self, value: Optional[T]) -> T:
+    def getOrElse(self, value: T) -> T:
         """Deprecated. Use `get_or_else` instead."""
         warnings.warn(
             "`getOrElse` is deprecated, use `get_or_else` instead.",
@@ -78,6 +78,11 @@ class Option(Generic[T]):
 
     @classmethod
     def fromValue(cls, val: Optional[T]) -> 'Option[T]':
+        warnings.warn(
+            "`fromValue` is deprecated, use `of` instead.",
+            category=DeprecationWarning,
+            stacklevel=2
+        )
         return NONE() if val is None else Some(val)
 
     def bind(self, bindable: Callable[[T], T]) -> 'Option[T]':
